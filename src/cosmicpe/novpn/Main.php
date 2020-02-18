@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace cosmicpe\novpn;
 
-use cosmicpe\antivpn\AntiVPN;
+use cosmoverse\antivpn\AntiVPN;
 use pocketmine\plugin\PluginBase;
 
 final class Main extends PluginBase{

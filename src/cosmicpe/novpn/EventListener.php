@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace cosmicpe\novpn;
 
 use cosmicpe\novpn\event\NoVPNDetectPlayerEvent;
-use cosmicpe\antivpn\thread\AntiVPNResult;
+use cosmoverse\antivpn\thread\AntiVPNResult;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\Server;

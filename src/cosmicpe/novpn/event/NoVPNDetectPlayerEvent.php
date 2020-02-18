@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace cosmicpe\novpn\event;
 
 use cosmicpe\novpn\Main;
-use cosmicpe\antivpn\thread\AntiVPNResult;
+use cosmoverse\antivpn\thread\AntiVPNResult;
 use pocketmine\event\Cancellable;
 use pocketmine\event\plugin\PluginEvent;
 use pocketmine\Player;
