@@ -5,4 +5,7 @@ branches:
 projects:
   NoVPN:
     path: ""
+    libs:
+      - src: cosmicpe/antivpn/AntiVPN
+        version: ^0.0.1
 ...
