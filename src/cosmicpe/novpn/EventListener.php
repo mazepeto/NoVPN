@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace cosmicpe\novpn;
 
 use cosmicpe\novpn\event\NoVPNDetectPlayerEvent;
+use cosmoverse\antivpn\thread\AntiVPNException;
 use cosmoverse\antivpn\thread\AntiVPNResult;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
@@ -34,27 +35,27 @@ class EventListener implements Listener{
 	 */
 	public function onPlayerJoin(PlayerJoinEvent $event) : void{
 		$player = $event->getPlayer();
-		$this->plugin->getApi()->check($player->getAddress(), function($result) use($player) : void{
-			if($result instanceof AntiVPNResult && $player->isOnline()){
-				($ev = new NoVPNDetectPlayerEvent($this->plugin, $player, $result))->call();
-				if(!$ev->isCancelled()){
-					$result = $ev->getResult();
-					if($result->isBehindVPN()){
-						$player = $ev->getPlayer();
+		$this->plugin->getApi()->check(
+			$player->getAddress(),
+			function(AntiVPNResult $result) use ($player) : void{
+				if($player->isOnline()){
+					($ev = new NoVPNDetectPlayerEvent($this->plugin, $player, $result))->call();
+					if(!$ev->isCancelled()){
+						$result = $ev->getResult();
+						if($result->isBehindVPN()){
+							$player = $ev->getPlayer();
 
-						$replacement_pairs = [
-							"{PLAYER}" => $player->getName(),
-							"{IP}" => $result->getIp(),
-							"{ISP}" => $result->getMetadata()->getIsp()
-						];
+							$replacement_pairs = ["{PLAYER}" => $player->getName(), "{IP}" => $result->getIp(), "{ISP}" => $result->getMetadata()->getIsp()];
 
-						$player->kick(strtr($this->kick_message_player, $replacement_pairs), false);
-						if($this->kick_message_ops !== ""){
-							$this->plugin->getServer()->broadcast(strtr($this->kick_message_ops, $replacement_pairs), Server::BROADCAST_CHANNEL_ADMINISTRATIVE);
+							$player->kick(strtr($this->kick_message_player, $replacement_pairs), false);
+							if($this->kick_message_ops !== ""){
+								$this->plugin->getServer()->broadcast(strtr($this->kick_message_ops, $replacement_pairs), Server::BROADCAST_CHANNEL_ADMINISTRATIVE);
+							}
 						}
 					}
 				}
-			}
-		});
+			},
+			function(AntiVPNException $exception) : void{ $this->plugin->getLogger()->logException($exception); }
+		);
 	}
 }
