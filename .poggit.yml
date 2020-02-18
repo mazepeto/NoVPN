@@ -6,6 +6,6 @@ projects:
   NoVPN:
     path: ""
     libs:
-      - src: cosmoverse/AntiVPN/AntiVPN
+      - src: Cosmoverse/CosmicAntiVPN/AntiVPN
         version: ^0.0.1
 ...
