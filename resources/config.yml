@@ -1,0 +1,19 @@
+# NoVPN v0.0.1 config
+
+# Your user API key. Don't have one? Visit https://antivpn.cosmicpe.me/client and get one after signing up.
+api-key: ""
+
+# Message displayed when player is kicked for using a VPN
+# Wildcards:
+#   {PLAYER} -> name of the player who is being kicked
+#   {IP}     -> the ip address of the player who is being kicked
+#   {ISP}    -> the name of the IP address's ISP
+kick-message:
+  # Message sent to player that is kicked
+  player: "VPN is NOT allowed on this server."
+  # Message sent to operators
+  ops: "&7&o[NoVPN: Kicked {PLAYER} for joining from a blacklisted ISP {ISP}]"
+
+# Maximum simultaneous requests
+# Recommended: around 2
+thread-count: 2
