@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace cosmicpe\novpn;
 
 use cosmicpe\novpn\event\NoVPNDetectPlayerEvent;
+use cosmoverse\antivpn\api\ip\AntiVPNIPResult;
 use cosmoverse\antivpn\thread\AntiVPNException;
-use cosmoverse\antivpn\thread\AntiVPNResult;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\Server;
@@ -35,14 +35,14 @@ class EventListener implements Listener{
 	 */
 	public function onPlayerJoin(PlayerJoinEvent $event) : void{
 		$player = $event->getPlayer();
-		$this->plugin->getApi()->check(
+		$this->plugin->getApi()->checkIp(
 			$player->getAddress(),
-			function(AntiVPNResult $result) use ($player) : void{
+			function(AntiVPNIPResult $result) use ($player) : void{
 				if($player->isOnline()){
 					($ev = new NoVPNDetectPlayerEvent($this->plugin, $player, $result))->call();
 					if(!$ev->isCancelled()){
 						$result = $ev->getResult();
-						if($result->isBehindVPN()){
+						if($result->isVpn()){
 							$player = $ev->getPlayer();
 
 							$replacement_pairs = ["{PLAYER}" => $player->getName(), "{IP}" => $result->getIp(), "{ISP}" => $result->getMetadata()->getIsp()];
