@@ -18,7 +18,7 @@ final class Main extends PluginBase{
 		$this->api = new AntiVPN($this, (string) $this->getConfig()->get("api-key"), (int) $this->getConfig()->get("thread-count"));
 		$this->api->getClientData(
 			function(AntiVPNClientResult $result) : void{
-				$this->getLogger()->debug("Connected as " . $result);
+				$this->getLogger()->debug("Logged in as " . $result);
 			},
 			function(AntiVPNException $exception) : void{
 				$this->getLogger()->logException($exception);
